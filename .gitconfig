@@ -1,0 +1,9 @@
+[user]
+	email = tangb4c@gmail.com
+	name = tangb4c
+[color]
+	ui = true
+[alias]
+	st = status
+	co = checkout
+	ci = commit
