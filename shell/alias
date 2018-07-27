@@ -1,0 +1,82 @@
+alias ll='ls -lh'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias dt="date -r "
+
+#linux tbj
+recv84(){ if [ $# -ne 2 ];then echo "recv from 10.6.207.84. ex: recv84 remotefile localfile";return 1;fi; expect -D 0 -c "spawn /usr/bin/rsync -e \"/usr/bin/ssh -l blaketang -p 36000\" 10.6.207.84:$1 $2 --progress; expect yes/no {send yes\r;exp_continue} password {send isd\!@#user\r;exp_continue} % {exp_continue} timeout {puts timeout} eof";}
+
+#ssh to 212
+alias s18='ssh blaketang@10.123.98.18 -p 36000 -o "GSSAPIAuthentication no" -t zsh'
+alias s168='ssh blaketang@10.123.102.168 -p 36000 -o "GSSAPIAuthentication no" -t zsh'
+alias s146='ssh blaketang@10.12.72.146 -p 36000 -o "GSSAPIAuthentication no" -t zsh'
+alias s102='ssh blaketang@10.123.102.102 -p 36000 -o "GSSAPIAuthentication no" -t zsh'
+alias s76='ssh blaketang@10.123.16.76 -p 36000 -o "GSSAPIAuthentication no" -t zsh'
+#ssh to jd cloud
+alias sjdroot='ssh root@117.48.214.103 -p 36000'
+alias sjdb='ssh blaketang@117.48.214.103 -p 36000'
+#nice dev machine
+alias s69='ssh blaketang@10.125.228.69 -p 36000 -o "GSSAPIAuthentication no" -t zsh'
+alias s16='ssh mmtenpay@10.24.255.16 -p 36000'
+alias s84='ssh   blaketang@10.6.207.84 -p 36000'
+alias spaywx='ssh blaketang@10.123.16.75 -p 36000'
+alias smnet='ssh blaketang@wxg.mnet2.com -p 36000'
+__comm_get_from(){
+    (
+        setopt KSH_ARRAYS   #zsh compatibility, for array base 0
+        __ip="$1"
+        if [ $# -lt 2 ];then
+            __funname="${funcstack[1]}"   #for bash, is ${FUNCNAME[1]}
+            echo "SYNOPSIS:"
+            echo "\t$__funname <src-path(abs_path/relative path)>"
+            echo "DESCRIPTION:"
+            echo "\tget file/directory from $__ip"
+            echo "EXAMPLE:"
+            echo "\t$__funname QQMail/BLADE_ROOT"
+            echo "\t$__funname /home/blaketang/QQMail/BLADE_ROOT"
+            return 1
+        fi
+        shift
+        __path="$*"
+        echo "copy $__path  ==> ."
+        /usr/bin/rsync -Sravz -e 'ssh -l blaketang -p 36000' $__ip:$__path . --progress
+    )
+}
+get_from_168(){ __comm_get_from 10.123.102.168 $* }
+get_from_18(){  __comm_get_from 10.123.98.18   $* }
+get_from_103(){ __comm_get_from 117.48.214.103 $* }
+send_to_18(){ if [ $# -lt 2 ];then echo "send_to_18 src-path dst-path"; return 1;fi; rsync  -Sravz -e 'ssh -l blaketang -p 36000' $1 10.123.98.18:$2 --progress;}
+send_to_168(){ if [ $# -lt 2 ];then echo "send_to_168 src-path dst-path"; return 1;fi; rsync  -Sravz -e 'ssh -l blaketang -p 36000' $1 10.123.102.168:$2 --progress;}
+send_to_16(){ if [ $# -lt 2 ];then echo "send_to_18 src-path dst-path"; return 1;fi; rsync  -Sravz -e 'ssh -l mmtenpay -p 36000' $1 10.24.255.16:$2 --progress;}
+send_to_103(){ if [ $# -lt 2 ];then echo "send_to_18 src-path dst-path"; return 1;fi; rsync  -Sravz -e 'ssh -l blaketang -p 22' $1 117.48.214.103:$2 --progress;}
+
+#code iconv
+big5_to_utf8(){
+    head "$*"
+    enca -L chinese "$*"
+    iconv -c -f big5 -t utf8 "$*" >"$*.new" 
+    mv -v "$*.new" "$*"
+    echo -e "\n============================After Convert========================"
+    head "$*"
+    enca -L chinese "$*"
+}
+
+#url encode
+alias urlescape='python -c "import urllib, sys; print urllib.quote(sys.argv[1])"'
+alias urlunescape='python -c "import urllib, sys; print urllib.unquote(sys.argv[1])"'
+alias htmlunescape='python -c "from HTMLParser import HTMLParser;import sys;print HTMLParser().unescape(sys.argv[1])"'
+alias htmlescape='python -c "import sys, cgi;print cgi.escape(sys.argv[1])"'
+
+#generate random string
+gen_random(){
+  local _cnt=12
+  if [ $# -gt 0 ];then _cnt="$1"; fi
+  openssl rand -base64 $_cnt |tr -cd "[:print:]"| head -c $_cnt
+}
+
+
+###########fasd##########
+alias v='f -e vim' # quick opening files with vim
+alias m='f -e mplayer' # quick opening files with mplayer
+alias j='fasd_cd -d' #like autojump
+

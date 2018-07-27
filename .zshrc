@@ -2,12 +2,12 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH="/$HOME/.oh-my-zsh"
+#  export ZSH="/$HOME/.oh-my-zsh"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+# ZSH_THEME="robbyrussell"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
@@ -24,7 +24,7 @@ ZSH_THEME="robbyrussell"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -61,12 +61,12 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  git
-  fasd
-)
+#plugins=(
+#  git
+#  fasd
+#)
 
-source $ZSH/oh-my-zsh.sh
+# source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -98,11 +98,16 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 
-export PROMPT=$'%M|%{$fg_bold[blue]%}%D %T%{$reset_color%} ${ret_status} %{$fg[cyan]%}%~%{$reset_color%} $(git_prompt_info)\n %(!.#.%%) '
+# export PROMPT=$'%M|%{$fg_bold[blue]%}%D %T%{$reset_color%} ${ret_status} %{$fg[cyan]%}%~%{$reset_color%} $(git_prompt_info)\n %(!.#.%%) '
 
-export CONFIGDIR="$HOME/config/shell"
+export CONFIGDIR="$HOME/.config.myself/shell"
+
+[[ -s "$CONFIGDIR/zsh.config.rc" ]] && source "$CONFIGDIR/zsh.config.rc"
+
 [[ -s "$CONFIGDIR/config.rc" ]] && source "$CONFIGDIR/config.rc"
 [[ -s "$CONFIGDIR/config.rc.nosync" ]] && source "$CONFIGDIR/config.rc.nosync"
 
 [[ -s "$CONFIGDIR/alias" ]] && source "$CONFIGDIR/alias"
 [[ -s "$CONFIGDIR/alias.nosync" ]] && source "$CONFIGDIR/alias.nosync"
+
+[[ -s "$CONFIGDIR/python.rc" ]] && export PYTHONSTARTUP="$CONFIGDIR/python.rc"
